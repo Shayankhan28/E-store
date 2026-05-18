@@ -2,45 +2,57 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 
 export default function LoginScreen() {
-  const router = useRouter();
-  const { login } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPass, setShowPass] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const router = useRouter(); // Navigation control karne ke liye object banaya
+  const { login } = useAuth(); // Global Auth Context se 'login' function nikala jo actual API call ya authentication handle karega
+
+  // State variables jo user ka input aur screen ki halat ko track karti hain:
+  const [email, setEmail] = useState(""); // Email text store karne ke liye
+  const [password, setPassword] = useState(""); // Password text store karne ke liye
+  const [showPass, setShowPass] = useState(false); // Password dikhana hai (visible) ya nahi (hidden), usko toggle karne ke liye
+  const [loading, setLoading] = useState(false); // Jab login request chal rahi ho toh loading spinner dikhane ke liye
+  const [errors, setErrors] = useState({}); // Validation errors (jaise "Email is required") ko store karne ke liye
 
   const validate = () => {
-    const e = {};
+    const e = {}; // Ek khali error object banaya
+
+    // Email Validation: Agar khali hai toh error do, agar regex match nahi hota toh invalid ka error do
     if (!email.trim()) e.email = "Email is required";
     else if (!/\S+@\S+\.\S+/.test(email)) e.email = "Enter a valid email";
+
+    // Password Validation: Agar khali hai toh error do
     if (!password) e.password = "Password is required";
-    setErrors(e);
-    return Object.keys(e).length === 0;
+
+    setErrors(e); // Errors state ko update kiya
+    return Object.keys(e).length === 0; // Agar koi error nahi hai (length 0 hai), toh 'true' return karega, matlab form valid hai
   };
 
   const handleLogin = async () => {
-    if (!validate()) return;
-    setLoading(true);
+    if (!validate()) return; // Agar validation fail ho jaye (false aaye), toh aage ka code mat chalao
+    setLoading(true); // Button par spinner ghumane ke liye loading true ki
+
     try {
+      // Auth Context ke login function ko email aur password bheja (trim() se extra spaces khatam hotay hain)
       await login(email.trim(), password);
-      router.replace("/(tabs)/home");
+      router.replace("/(tabs)/home"); // Kamyabi se login hone par user ko Home screen par bhej do aur login screen ko history se hta do
     } catch (err) {
+      // Agar backend ya Firebase se koi error aaye:
       let msg = "Login failed. Please try again.";
+
+      // Specific Firebase errors ke mutabiq aasan urdu/english message set karna:
       if (
         err.code === "auth/user-not-found" ||
         err.code === "auth/wrong-password" ||
@@ -50,9 +62,10 @@ export default function LoginScreen() {
       } else if (err.code === "auth/too-many-requests") {
         msg = "Too many attempts. Please try again later.";
       }
-      Alert.alert("Login Failed", msg);
+
+      Alert.alert("Login Failed", msg); // User ko screen par alert box dikhao
     } finally {
-      setLoading(false);
+      setLoading(false); // Chahe login ho ya error aaye, end mein loading ko wapas false krdo taake button normal ho jaye
     }
   };
 
@@ -65,6 +78,7 @@ export default function LoginScreen() {
         contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="handled"
       >
+        {/* Top background decorative circles (Jo halkay green rang ke circles top right par design banate hain) */}
         <View style={styles.headerDecor}>
           <View style={styles.circle1} />
           <View style={styles.circle2} />
