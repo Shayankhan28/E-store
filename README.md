@@ -159,28 +159,29 @@ Add `.env` to your `.gitignore`:
 
 ---
 
+## 📸 App Screenshots
+
+## 📸 App Screenshots
+
 <div align="center">
 
-### 📸 Screenshots
+|                    **Splash Screen**                    |                 **Login Screen**                 |                 **Register Screen**                 |
+| :-----------------------------------------------------: | :----------------------------------------------: | :-------------------------------------------------: |
+| <img src="assets/images/splashscreen.jpeg" width="220"> | <img src="assets/images/login.jpeg" width="220"> | <img src="assets/images/register.jpeg" width="220"> |
 
-|                                  Splash Screen                                   |                               Login Screen                               |                                Register Screen                                 |
-| :------------------------------------------------------------------------------: | :----------------------------------------------------------------------: | :----------------------------------------------------------------------------: |
-| <img src="app/assets/images/splashscreen.jpeg" width="200" alt="Splash Screen"/> | <img src="app/assets/images/login.jpeg" width="200" alt="Login Screen"/> | <img src="app/assets/images/register.jpeg" width="200" alt="Register Screen"/> |
+|                 **Home Screen**                 |                    **Categories**                     |                    **Product Details**                    |
+| :---------------------------------------------: | :---------------------------------------------------: | :-------------------------------------------------------: |
+| <img src="assets/images/home.jpeg" width="220"> | <img src="assets/images/categories.jpeg" width="220"> | <img src="assets/images/productdetails.jpeg" width="220"> |
 
-|                              Home Screen                               |                                 Categories                                  |                                   Product Details                                    |
-| :--------------------------------------------------------------------: | :-------------------------------------------------------------------------: | :----------------------------------------------------------------------------------: |
-| <img src="app/assets/images/home.jpeg" width="200" alt="Home Screen"/> | <img src="app/assets/images/categories.jpeg" width="200" alt="Categories"/> | <img src="app/assets/images/productdetails.jpeg" width="200" alt="Product Details"/> |
+|                 **Cart Screen**                 |                 **Profile Screen**                 |                   **Add to Cart**                    |
+| :---------------------------------------------: | :------------------------------------------------: | :--------------------------------------------------: |
+| <img src="assets/images/cart.jpeg" width="220"> | <img src="assets/images/profile.jpeg" width="220"> | <img src="assets/images/addtocart.jpeg" width="220"> |
 
-|                              Cart Screen                               |                                Profile Screen                                |                                 Add to Cart                                 |
-| :--------------------------------------------------------------------: | :--------------------------------------------------------------------------: | :-------------------------------------------------------------------------: |
-| <img src="app/assets/images/cart.jpeg" width="200" alt="Cart Screen"/> | <img src="app/assets/images/profile.jpeg" width="200" alt="Profile Screen"/> | <img src="app/assets/images/addtocart.jpeg" width="200" alt="Add to Cart"/> |
-
-|                               Update Profile                                |                               Logout                                |
-| :-------------------------------------------------------------------------: | :-----------------------------------------------------------------: |
-| <img src="app/assets/images/update.jpeg" width="200" alt="Update Profile"/> | <img src="app/assets/images/logout.jpeg" width="200" alt="Logout"/> |
+|                **Update Profile**                 |                    **Logout**                     |
+| :-----------------------------------------------: | :-----------------------------------------------: |
+| <img src="assets/images/update.jpeg" width="220"> | <img src="assets/images/logout.jpeg" width="220"> |
 
 </div>
-
 ## 🤝 Contributing
 
 Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change.
