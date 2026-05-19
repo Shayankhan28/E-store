@@ -2,32 +2,34 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
-  Alert,
-  Modal,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+  Alert, // Device alerts dikhane ke liye module
+  Modal, // Screen ke upar pop-up window show karne ke liye component
+  ScrollView, // Content scroll karne ke liye wrapper
+  StatusBar, // Device ke top indicator bar ko stylize karne ke liye
+  StyleSheet, // Styling rules set karne ke liye
+  Text, // Text components render karne ke liye
+  TouchableOpacity, // Clickable items par touch feedback dene ke liye
+  View, // Layout division container blocks
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "../../context/AuthContext";
-import { useCart } from "../../context/CartContext";
+import { SafeAreaView } from "react-native-safe-area-context"; // Notch aur bottom system bars se layout safe rakhne ke liye
+import { useAuth } from "../../context/AuthContext"; // User profile aur logout function fetch karne ke liye context
+import { useCart } from "../../context/CartContext"; // Cart analytics aur counters access karne ke liye context
 
+// CUSTOM REUSABLE COMPONENT: Profile menu list ki ek single line/row design karne ke liye
 const MenuItem = ({
-  icon,
-  label,
-  subtitle,
-  color = "#374151",
-  onPress,
-  danger,
+  icon, // Icon ka naam (string)
+  label, // Main menu name
+  subtitle, // Menu ki choti detail context text
+  color = "#374151", // Default icon color
+  onPress, // Click action handler function
+  danger, // Log Out jise dangerous action items ke liye red flag
 }) => (
   <TouchableOpacity
     style={styles.menuItem}
     onPress={onPress}
-    activeOpacity={0.7}
+    activeOpacity={0.7} // Click karne par halka sa fade animation
   >
+    {/* Icon background box design (danger hone par soft red, warna soft green) */}
     <View
       style={[
         styles.menuIconWrap,
@@ -36,28 +38,32 @@ const MenuItem = ({
     >
       <Ionicons name={icon} size={20} color={danger ? "#ef4444" : color} />
     </View>
+    {/* Text area layout */}
     <View style={{ flex: 1 }}>
       <Text style={[styles.menuLabel, danger && { color: "#ef4444" }]}>
         {label}
       </Text>
+      {/* Agar subtitle background se pass kiya gaya hai toh render kare, warna ignore kare */}
       {subtitle ? <Text style={styles.menuSub}>{subtitle}</Text> : null}
     </View>
+    {/* Right side arrow pointer sign */}
     <Ionicons name="chevron-forward" size={18} color="#d1d5db" />
   </TouchableOpacity>
 );
 
 export default function ProfileScreen() {
-  const router = useRouter();
-  const { userProfile, logout } = useAuth();
+  const router = useRouter(); // Router handler instance
+  const { userProfile, logout } = useAuth(); // Global Auth state se profile details aur log-out functionality nikal li
 
-  // 🔴 Context se ordersCount fetch kiya
+  // 🔴 UseCart context se metrics safely destructure kiye taaki application crash na kare agar values empty hon
   const { cartCount = 0, cartTotal = 0, ordersCount = 0 } = useCart() || {};
-  const [logoutModal, setLogoutModal] = useState(false);
+  const [logoutModal, setLogoutModal] = useState(false); // Modal control overlay state toggler
 
+  // LOG OUT LOGIC FUNCTION
   const handleLogout = async () => {
-    setLogoutModal(false);
-    await logout();
-    router.replace("/(auth)/login");
+    setLogoutModal(false); // Pop-up confirmation dialog box off kiya
+    await logout(); // Context logic se device session aur authentication tokens flush kiye
+    router.replace("/(auth)/login"); // User ko securely login route par throw kar diya (Back-button restriction ke sath)
   };
 
   const initials = userProfile?.fullName
@@ -68,14 +74,15 @@ export default function ProfileScreen() {
         .toUpperCase()
         .slice(0, 2)
     : "??";
+
   const DELIVERY_CHARGES = cartCount > 0 ? 15 : 0;
   const totalCartValueWithDelivery = cartTotal + DELIVERY_CHARGES;
 
   return (
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-
-      {/* 🟢 FIXED: Header text ke sath matching logo dynamically add kar diya bina alignment chhede */}
+      // 🟢 FIXED: Header text ke sath matching logo dynamically add kar diya
+      bina alignment chhede */
       <View style={styles.header}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <View style={styles.iconBg}>
@@ -84,18 +91,23 @@ export default function ProfileScreen() {
           <Text style={styles.headerTitle}>E-Store</Text>
         </View>
       </View>
-
+      {/* SCROLLABLE VIEW: Is container ke andar user list profile explore kar sakta hai */}
       <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 40 }}
+        showsVerticalScrollIndicator={false} // Side par aane wali vertical scrollbar line ko chupaya hai
+        contentContainerStyle={{ paddingBottom: 40 }} // Bottom par extra space di hai taake tabs ke peeche content na dhabe
       >
-        {/* Avatar */}
+        {/* ====================  PROFILE DISPLAY SECTION ==================== */}
         <View style={styles.avatarSection}>
+          {/* Circular Box: Isme user ke naam ke initials (e.g., 'AZ') show honge */}
           <View style={styles.avatarCircle}>
             <Text style={styles.avatarText}>{initials}</Text>
           </View>
+          {/* User Name: Agar profile load nahi hui toh fallback text "User" dikhega */}
           <Text style={styles.userName}>{userProfile?.fullName || "User"}</Text>
+          {/* User Email: Dynamic email load, blank string agar data na ho */}
           <Text style={styles.userEmail}>{userProfile?.email || ""}</Text>
+
+          {/* CONDITIONAL RENDER: Agar data payload mein 'city' majood hai, sirf tabhi location row screen par dikhegi */}
           {userProfile?.city && (
             <View style={styles.locationRow}>
               <Ionicons name="location-outline" size={14} color="#9ca3af" />
@@ -106,13 +118,15 @@ export default function ProfileScreen() {
           )}
         </View>
 
-        {/* Stats Section */}
+        {/* ==================== METRICS STATS DASHBOARD BAR ==================== */}
         <View style={styles.statsRow}>
+          {/* Stat Block 1: Cart mein kitne items hain uska total counter */}
           <View style={styles.statBox}>
             <Text style={styles.statNumber}>{cartCount}</Text>
             <Text style={styles.statLabel}>In Cart</Text>
           </View>
-          <View style={styles.statDivider} />
+          <View style={styles.statDivider} />{" "}
+          {/* Beech ki vertical partition line */}
           <View style={styles.statBox}>
             <Text style={styles.statNumber}>
               ${totalCartValueWithDelivery.toFixed(0)}
@@ -198,7 +212,6 @@ export default function ProfileScreen() {
           />
         </View>
       </ScrollView>
-
       {/* Logout Modal */}
       <Modal visible={logoutModal} transparent animationType="fade">
         <View style={styles.modalOverlay}>

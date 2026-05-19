@@ -16,18 +16,20 @@ import { useCart } from "../../context/CartContext";
 export default function CartScreen() {
   const router = useRouter();
 
-  // 🟢 FIXED: Yahan updateQuantity aur removeFromCart ko extract kiya taaki + / - kaam kare
   const {
-    cartItems = [],
-    cartTotal = 0,
-    cartCount = 0,
-    placeOrder,
-    updateQuantity,
-    removeFromCart,
+    cartItems = [], // Cart k d product list kho array ki
+    cartTotal = 0, // Items ka total bill kho delivery charges sra
+    cartCount = 0, // Total items ki tadad
+    placeOrder, // Order backend k save kolo wala function
+    updateQuantity, // Quantity ko siwa or kamoloe wala function
+    removeFromCart, // Item ko cart se delete karne wala function
   } = useCart() || {};
+  // useCart() context se saara important data aur functions nikale
+  // '|| {}' isliye lagaya taake agar context khali (undefined) bhi ho toh app crash na ho
 
+  // Delivery Charges Math: Agar cart mein items hain toh $15 delivery fee lagao, warna $0
   const DELIVERY = cartItems.length > 0 ? 15 : 0;
-  const finalTotal = cartTotal + DELIVERY;
+  const finalTotal = cartTotal + DELIVERY; // Final Bill
 
   const handleOrder = () => {
     Alert.alert(
@@ -35,6 +37,7 @@ export default function CartScreen() {
       `Total: $${finalTotal.toFixed(2)}\nProceed to place order?`,
       [
         { text: "Cancel", style: "cancel" },
+        //awal btn wala de or duwem as popup show kigi msg box ki
         {
           text: "Place Order",
           onPress: async () => {
@@ -62,6 +65,8 @@ export default function CartScreen() {
       </View>
 
       {cartItems.length === 0 ? (
+        //ternary operator use kre de
+        // k cart khali v
         <View style={styles.emptyWrap}>
           <Ionicons name="cart-outline" size={80} color="#d1fae5" />
           <Text style={styles.emptyTitle}>Your cart is empty</Text>
@@ -74,6 +79,7 @@ export default function CartScreen() {
           </TouchableOpacity>
         </View>
       ) : (
+        // k cart full v nu byea ba da show kigi
         <>
           <View style={styles.cartHeaderRow}>
             <Text style={styles.myCartTitle}>My Cart</Text>
@@ -85,7 +91,7 @@ export default function CartScreen() {
           <FlatList
             data={cartItems}
             keyExtractor={(item, index) => String(item?.id || index)}
-            // 🟢 FIXED: Yahan CartItem ko + aur - (increase/decrease) ki power de di hai
+            //  Yahan CartItem ko + aur - (increase/decrease) ki power de di hai
             renderItem={({ item }) => (
               <CartItem
                 item={item}

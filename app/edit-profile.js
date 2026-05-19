@@ -17,7 +17,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../context/AuthContext";
 
-// InputField Component
 const InputField = ({
   label,
   value,
@@ -29,6 +28,7 @@ const InputField = ({
 }) => (
   <View style={styles.fieldWrap}>
     <Text style={styles.fieldLabel}>{label}</Text>
+    {}
     <View
       style={[styles.inputWrap, errors?.[errorKey] ? styles.inputError : null]}
     >
@@ -41,6 +41,7 @@ const InputField = ({
         keyboardType={keyboardType || "default"}
       />
     </View>
+    {}
     {errors?.[errorKey] ? (
       <Text style={styles.errMsg}>{errors[errorKey]}</Text>
     ) : null}
@@ -50,6 +51,7 @@ const InputField = ({
 export default function EditProfileScreen() {
   const router = useRouter();
   const { userProfile, updateProfile } = useAuth();
+
   const [fullName, setFullName] = useState(userProfile?.fullName || "");
   const [phone, setPhone] = useState(userProfile?.phone || "");
   const [streetAddress, setStreetAddress] = useState(
@@ -82,7 +84,7 @@ export default function EditProfileScreen() {
           country,
         });
       }
-      // 🟢 FIXED: Alert message yahan se remove kar diya gaya hai
+
       router.back();
     } catch (err) {
       Alert.alert("Error", "Failed to update profile. Please try again.");
@@ -104,7 +106,7 @@ export default function EditProfileScreen() {
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
-      {/* Header */}
+      {}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color="#111" />
@@ -123,7 +125,7 @@ export default function EditProfileScreen() {
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
-          {/* Avatar Section */}
+          {}
           <View style={styles.avatarSection}>
             <View style={styles.avatarCircle}>
               <Text style={styles.avatarText}>{initials}</Text>
@@ -131,7 +133,7 @@ export default function EditProfileScreen() {
             <Text style={styles.avatarHint}>{userProfile?.email || ""}</Text>
           </View>
 
-          {/* Personal Info */}
+          {}
           <Text style={styles.sectionLabel}>Personal Info</Text>
           <View style={styles.card}>
             <InputField
@@ -152,7 +154,7 @@ export default function EditProfileScreen() {
             />
           </View>
 
-          {/* Delivery Address */}
+          {}
           <Text style={styles.sectionLabel}>Delivery Address</Text>
           <View style={styles.card}>
             <InputField
@@ -194,7 +196,7 @@ export default function EditProfileScreen() {
             />
           </View>
 
-          {/* Save Button */}
+          {}
           <TouchableOpacity
             style={styles.saveBtn}
             onPress={handleSave}

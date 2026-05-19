@@ -1,50 +1,204 @@
-# Welcome to your Expo app 👋
+<div align="center">
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# 🛍️ E-Store
 
-## Get started
+**A full-featured mobile e-commerce app built with React Native & Expo**
 
-1. Install dependencies
+[![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)](https://expo.dev/)
+[![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
+_Your everyday store — shop anytime, anywhere._
+
+</div>
+
+---
+
+## 📱 Overview
+
+E-Store is a cross-platform mobile shopping application that provides a seamless e-commerce experience. Users can browse products, manage a cart, authenticate securely, and track their orders — all from a clean, modern interface.
+
+---
+
+## ✨ Features
+
+- 🔐 **Authentication** — Signup, Login, OTP Verification, Forgot Password & Reset Password via Firebase Auth
+- 🏠 **Home Feed** — Browse all products with live search, powered by DummyJSON API
+- 🗂️ **Categories** — Filter and explore products by category
+- 🛒 **Cart** — Add/remove items, persistent cart using AsyncStorage
+- 📦 **Product Details** — Detailed product view with images, ratings, and descriptions
+- 👤 **Profile** — View and edit user profile
+- ✅ **Order Success Screen** — Confirmation screen after placing an order
+- 🌊 **Animated Splash Screen** — Smooth spring animation on app launch
+
+---
+
+## 🗂️ Project Structure
+
+```
+E_Store/
+├── app/
+│   ├── (auth)/                  # Auth screens (file-based routing)
+│   │   ├── login.js
+│   │   ├── signup.js
+│   │   ├── verify-otp.js
+│   │   ├── forgot-password.js
+│   │   ├── reset-password.js
+│   │   ├── password-success.js
+│   │   └── _layout.js
+│   ├── (tabs)/                  # Bottom tab screens
+│   │   ├── home.js
+│   │   ├── categories.js
+│   │   ├── cart.js
+│   │   ├── profile.js
+│   │   └── _layout.js
+│   ├── index.js                 # Splash screen & auth redirect
+│   ├── product-detail.js
+│   ├── edit-profile.js
+│   ├── OrderSuccessScreen.js
+│   └── _layout.js               # Root layout with providers
+├── components/
+│   ├── ProductCard.js
+│   └── CartItem.js
+├── config/
+│   └── firebase.js              # Firebase initialization
+├── context/
+│   ├── AuthContext.js           # Auth state management
+│   └── CartContext.js           # Cart state management
+├── utils/
+│   └── cartStorage.js           # AsyncStorage helpers
+└── assets/
+    └── images/
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer          | Technology                          |
+| -------------- | ----------------------------------- |
+| Framework      | React Native (Expo)                 |
+| Routing        | Expo Router (file-based)            |
+| Backend / Auth | Firebase (Auth + Realtime Database) |
+| Products API   | [DummyJSON](https://dummyjson.com/) |
+| Local Storage  | AsyncStorage                        |
+| Icons          | Expo Vector Icons (Ionicons)        |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js `>= 18`
+- npm or yarn
+- Expo CLI (`npm install -g expo-cli`)
+- Expo Go app on your phone (for testing) OR an Android/iOS emulator
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/your-username/E_Store.git
+   cd E_Store
+   ```
+
+2. **Install dependencies**
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. **Configure Firebase**
+
+   Create your Firebase project at [console.firebase.google.com](https://console.firebase.google.com), then update `config/firebase.js` with your own credentials:
+
+   ```js
+   const firebaseConfig = {
+     apiKey: "YOUR_API_KEY",
+     authDomain: "YOUR_AUTH_DOMAIN",
+     databaseURL: "YOUR_DATABASE_URL",
+     projectId: "YOUR_PROJECT_ID",
+     storageBucket: "YOUR_STORAGE_BUCKET",
+     messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+     appId: "YOUR_APP_ID",
+   };
+   ```
+
+   > ⚠️ **Never commit your real Firebase credentials to a public repo.** Use environment variables or a `.env` file.
+
+4. **Start the development server**
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+5. **Run on device**
+   - Scan the QR code with **Expo Go** (Android/iOS)
+   - Or press `a` for Android emulator, `i` for iOS simulator
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 🔒 Environment Variables
 
-## Get a fresh project
+It is recommended to store Firebase secrets in a `.env` file:
 
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+EXPO_PUBLIC_FIREBASE_API_KEY=your_api_key
+EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain
+...
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Add `.env` to your `.gitignore`:
 
-## Learn more
+```
+.env
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+<div align="center">
 
-## Join the community
+### 📸 Screenshots
 
-Join our community of developers creating universal apps.
+|                                  Splash Screen                                   |                               Login Screen                               |                                Register Screen                                 |
+| :------------------------------------------------------------------------------: | :----------------------------------------------------------------------: | :----------------------------------------------------------------------------: |
+| <img src="app/assets/images/splashscreen.jpeg" width="200" alt="Splash Screen"/> | <img src="app/assets/images/login.jpeg" width="200" alt="Login Screen"/> | <img src="app/assets/images/register.jpeg" width="200" alt="Register Screen"/> |
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+|                              Home Screen                               |                                 Categories                                  |                                   Product Details                                    |
+| :--------------------------------------------------------------------: | :-------------------------------------------------------------------------: | :----------------------------------------------------------------------------------: |
+| <img src="app/assets/images/home.jpeg" width="200" alt="Home Screen"/> | <img src="app/assets/images/categories.jpeg" width="200" alt="Categories"/> | <img src="app/assets/images/productdetails.jpeg" width="200" alt="Product Details"/> |
+
+|                              Cart Screen                               |                                Profile Screen                                |                                 Add to Cart                                 |
+| :--------------------------------------------------------------------: | :--------------------------------------------------------------------------: | :-------------------------------------------------------------------------: |
+| <img src="app/assets/images/cart.jpeg" width="200" alt="Cart Screen"/> | <img src="app/assets/images/profile.jpeg" width="200" alt="Profile Screen"/> | <img src="app/assets/images/addtocart.jpeg" width="200" alt="Add to Cart"/> |
+
+|                               Update Profile                                |                               Logout                                |
+| :-------------------------------------------------------------------------: | :-----------------------------------------------------------------: |
+| <img src="app/assets/images/update.jpeg" width="200" alt="Update Profile"/> | <img src="app/assets/images/logout.jpeg" width="200" alt="Logout"/> |
+
+</div>
+
+## 🤝 Contributing
+
+Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change.
+
+1. Fork the repo
+2. Create your feature branch: `git checkout -b feature/my-feature`
+3. Commit your changes: `git commit -m 'Add my feature'`
+4. Push to the branch: `git push origin feature/my-feature`
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+Made with ❤️ using React Native & Expo
+</div>

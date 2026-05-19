@@ -1,23 +1,23 @@
-import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { Ionicons } from "@expo/vector-icons"; //
+import { useRouter } from "expo-router"; // ✅ Fixed Missing Import
+import { useCallback, useEffect, useState } from "react"; // ✅ Fixed Missing React Hooks
 import {
-  ActivityIndicator,
-  Alert,
-  RefreshControl,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+  ActivityIndicator, // Loading spinner ke liye component
+  Alert, // Pop-up alert box dikhane ke liye
+  RefreshControl, // Pull-to-refresh (niche khinch kar reload karne) ka feature
+  ScrollView, // Screen scroll karne ke liye wrapper
+  StatusBar, // Mobile ke top time/battery bar ko control karne ke liye
+  StyleSheet, // CSS styles likhne ke liye
+  Text, // Text display karne ke liye
+  TextInput, // Search box inputs ke liye
+  TouchableOpacity, // Clickable buttons banane ke liye
+  View, // Layout division boxes banane ke liye
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context"; // Notch display se content bachaane ke liye
 
-import ProductCard from "../../components/ProductCard";
-import { useAuth } from "../../context/AuthContext";
-import { useCart } from "../../context/CartContext";
+import ProductCard from "../../components/ProductCard"; // Single product card ka design component
+import { useAuth } from "../../context/AuthContext"; // User ki login profile ka data access karne ke liye context
+import { useCart } from "../../context/CartContext"; // Cart mein items add karne ke liye context
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -28,53 +28,63 @@ export default function HomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [search, setSearch] = useState("");
 
+  // API CALLING: Internet se data fetch karne ka function
   const fetchProducts = async () => {
     try {
-      // 🔴 FIX: limit=0 set kiya hai, isse DummyJSON apne saare products return karega
+      // limit=0 lagane se DummyJSON backend se apne saare (100+) products ek sath return karega
       const res = await fetch("https://dummyjson.com/products?limit=0");
       const data = await res.json();
-      setProducts(data.products || []);
+      setProducts(data.products || []); // Products state mein list save ho gayi
     } catch (e) {
-      console.error("Error fetching products:", e);
+      console.error("Error fetching products:", e); // Agar net off ho toh console mein error print ho
     } finally {
-      setLoading(false);
-      setRefreshing(false);
+      setLoading(false); // Main loader off ho jaye
+      setRefreshing(false); // Pull-to-refresh wala loader bhi off ho jaye
     }
   };
 
+  // Screen load hote hi automatic products fetch karne ka trigger
   useEffect(() => {
     fetchProducts();
   }, []);
 
+  //Jab user screen ko niche khinchega toh data refresh hoga
+  // useCallback use kiya hai taaki yeh function baar-baar memory mein re-create na ho (Performance optimization)
   const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    fetchProducts();
+    setRefreshing(true); // Refreshing spinner on
+    fetchProducts(); // Naye siray se API request bheji
   }, []);
 
+  // Card par majood add-to-cart button ka function
   const handleAddToCart = (item) => {
     if (addToCart) {
+      // Context wale function ko clean aur short parameters bheje
       addToCart({
         id: item.id,
         title: item.title,
         price: item.price,
         image: item.thumbnail,
       });
+      // Kamyabi ka pop-up alert box display kiya
       Alert.alert("Success 🎉", `${item.title} has been added to your cart!`);
     }
   };
 
+  // LIVE SEARCH FILTER: User jo bhi text likhega, uske mutabiq products live filter honge
+  // .includes() dono lowercase mein check karta hai taaki Case-Sensitivity (bara/chota lafz) ka masla na ho
   const filtered = products.filter((p) =>
     p.title?.toLowerCase().includes(search.toLowerCase()),
   );
 
+  // USERNAME EXTRACTION: Agar full name "Aman Zaid" hai, toh split(" ")[0] se sirf pehla naam "Aman" nikal aayega
   const firstName = userProfile?.fullName?.split(" ")[0] || "there";
 
   return (
-    // 🟢 SafeArea edges fixed for notch screens
+    // MAIN WRAPPER: Top, Left aur Right edges notch screens ke liye safe kiye hain
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
+      {/* Mobile top status bar styling */}
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-
-      {/* HEADER */}
+      {/* //-------------Header wala kar------------ */}
       <View style={styles.header}>
         <View>
           <Text style={styles.greeting}>Hi, {firstName} 👋</Text>
@@ -84,8 +94,7 @@ export default function HomeScreen() {
           <Ionicons name="notifications-outline" size={22} color="#374151" />
         </TouchableOpacity>
       </View>
-
-      {/* SEARCH BAR */}
+      {/* //-------------Search wala kar------------ */}
       <View style={styles.searchWrap}>
         <Ionicons
           name="search-outline"
@@ -98,7 +107,7 @@ export default function HomeScreen() {
           placeholder="Search products..."
           placeholderTextColor="#9ca3af"
           value={search}
-          onChangeText={setSearch}
+          onChangeText={setSearch} // Har lafz badalne par state update hogi aur grid filter hoga
         />
         {search.length > 0 && (
           <TouchableOpacity onPress={() => setSearch("")}>
@@ -106,7 +115,6 @@ export default function HomeScreen() {
           </TouchableOpacity>
         )}
       </View>
-
       <ScrollView
         style={styles.container}
         refreshControl={
@@ -116,10 +124,10 @@ export default function HomeScreen() {
             tintColor="#22c55e"
           />
         }
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false} // Side scroll line hidden
+        keyboardShouldPersistTaps="handled" // Agar keyboard khula ho aur card par click karein, toh click accept ho jaye
       >
-        {/* Banner */}
+        {/* //==================================Banner===== */}
         <View style={styles.banner}>
           <View style={styles.bannerContent}>
             <Text style={styles.bannerTag}>🔥 Hot Deal</Text>
@@ -142,44 +150,51 @@ export default function HomeScreen() {
             />
           </View>
         </View>
-
-        {/* Section Title */}
+        {/* SECTION HEADER */}
         <View style={styles.sectionHeader}>
+          {/* Filtered array ki live length dynamic count bracket mein show karegi */}
           <Text style={styles.sectionTitle}>
             Trending Products ({filtered.length})
           </Text>
+          {/* See All link redirects to categories tab */}
           <TouchableOpacity onPress={() => router.push("/(tabs)/categories")}>
             <Text style={styles.seeAll}>See All</Text>
           </TouchableOpacity>
         </View>
-
         {loading ? (
+          //****************************PRODUCTS RENDERING GRID
+
+          // STATE A: Agar pehli baar page khul raha hai aur data load ho raha hai
           <View style={styles.loadingWrap}>
             <ActivityIndicator size="large" color="#22c55e" />
           </View>
         ) : filtered.length === 0 ? (
+          // STATE B: User ne kuch search kiya lekin array matching zero aayi (No item found)
           <View style={styles.loadingWrap}>
             <Text style={{ color: "#9ca3af" }}>
               No products matched your search.
             </Text>
           </View>
         ) : (
+          // STATE C: Filtered items ko screen par matrix structure mein loop chalana
           <View style={styles.grid}>
             {filtered.map((item) => (
               <ProductCard
                 key={item.id}
                 product={{ ...item, image: item.thumbnail }}
                 onPress={() =>
+                  // Card click par router item.id ke sath product detail modal/page push karega
                   router.push({
                     pathname: "/product-detail",
                     params: { id: String(item.id) },
                   })
                 }
-                onAddToCart={() => handleAddToCart(item)}
+                onAddToCart={() => handleAddToCart(item)} // Add to cart handler execute
               />
             ))}
           </View>
         )}
+        {/* Bottom padding spacer taake screen scroll end par navigation tabs ke neeche na dhabe */}
         <View style={{ height: 40 }} />
       </ScrollView>
     </SafeAreaView>

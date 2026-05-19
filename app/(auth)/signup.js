@@ -2,31 +2,36 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 
 export default function SignupScreen() {
   const router = useRouter();
-  const { register } = useAuth();
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPass, setShowPass] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const { register } = useAuth(); // AuthContext se 'register' function nikala jo user ka data database (Firebase wagera) mein save karega
 
+  // States jo input text ko sath-sath store/update karti hain:
+  const [fullName, setFullName] = useState(""); // User ka poora naam store karne ke liye
+  const [email, setEmail] = useState(""); // User ka email
+  const [password, setPassword] = useState(""); // Pehla password input
+  const [confirmPassword, setConfirmPassword] = useState(""); // Dobara confirmation ke liye password input
+
+  // Form status ki states:
+  const [showPass, setShowPass] = useState(false); // Pehle password ki eye toggle (hide/show)
+  const [showConfirm, setShowConfirm] = useState(false); // Confirm password ki eye toggle (hide/show)
+  const [loading, setLoading] = useState(false); // Sign up submit hone par loader dikhane ke liye
+  const [errors, setErrors] = useState({}); // Inputs ke errors manage karne ke liye object
+
+  //deke monga toll validation formaete add kre ch awb
   const validate = () => {
     const e = {};
     if (!fullName.trim()) e.fullName = "Full name is required";
@@ -40,15 +45,17 @@ export default function SignupScreen() {
       e.confirmPassword = "Passwords do not match";
     setErrors(e);
     return Object.keys(e).length === 0;
+    //ka error na e nu byea ba da object khali return sh
   };
 
   const handleSignup = async () => {
-    if (!validate()) return;
+    if (!validate()) return; //k validation fail  sh nu byea makhke process stop sh
     setLoading(true);
     try {
       await register(fullName.trim(), email.trim(), password);
       router.replace("/(tabs)/home");
     } catch (err) {
+      //error ba dalta k show sh k sa masla v registration k
       Alert.alert(
         "Sign Up Failed",
         err.message || "Could not create account. Try again.",

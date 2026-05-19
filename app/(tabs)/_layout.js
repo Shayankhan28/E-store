@@ -13,6 +13,7 @@ function CartTabIcon({ color, focused }) {
         color={color}
       />
       {cartCount > 0 && (
+        //cart d pasa ch km number show kigi aga e de
         <View style={styles.badge}>
           <Text style={styles.badgeText}>
             {cartCount > 99 ? "99+" : cartCount}

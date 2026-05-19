@@ -14,12 +14,19 @@ const firebaseConfig = {
   measurementId: "G-58128E19TW",
 };
 
+// initializeApp(firebaseConfig) se engine start hota hai aur yeh return mein ek live connection runtime 'app' module instance banata hai
 const app = initializeApp(firebaseConfig);
 
+// export const auth: Isko pure project mein kisi bhi login/signup screen par direct import kiya ja sakta hai
 export const auth = initializeAuth(app, {
+  // persistence management framework configuration logic:
+  // getReactNativePersistence(AsyncStorage) se yeh faida hota hai ke user login hone ke baad agar mobile app close/kill bhi kar de,
+  // toh agli dafa app kholne par uski token identity local device memory se read ho jayegi aur app usay auto-login kar degi (Dobara credentials nahi mangegi).
   persistence: getReactNativePersistence(AsyncStorage),
 });
 
+// export const database: Is instance variable module ko hum dynamic product listing nodes ya checkout management hooks data saving entries mein direct target karenge
 export const database = getDatabase(app);
 
+// Default operational instance blueprint forward export pattern setup triggers
 export default app;

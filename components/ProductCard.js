@@ -8,6 +8,12 @@ import {
   View,
 } from "react-native";
 
+// Jab user app open karta hai aur uske saamne
+//  bohot saare products ki list aati hai
+// (Home Screen ya Shop Screen par), toh yeh
+// file us list ke aik single product box (card)
+// ka design aur uske buttons ko handle karti hai.
+
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = (width - 48) / 2;
 

@@ -23,11 +23,14 @@ export default function ForgotPasswordScreen() {
   const [errors, setErrors] = useState({});
 
   const validate = () => {
-    const e = {};
+    const e = {}; // Khali error object
+
+    // Check agar field khali hai ya email ka format (regex) theek nahi hai
     if (!email.trim()) e.email = "Email is required";
     else if (!/\S+@\S+\.\S+/.test(email)) e.email = "Enter a valid email";
-    setErrors(e);
-    return Object.keys(e).length === 0;
+
+    setErrors(e); // Errors state ko data assign kiya
+    return Object.keys(e).length === 0; // Agar koi error nahi mila toh 'true' return karega
   };
 
   const handleSend = async () => {
