@@ -161,25 +161,23 @@ Add `.env` to your `.gitignore`:
 
 ## 📸 App Screenshots
 
-## 📸 App Screenshots
-
 <div align="center">
 
-|                    **Splash Screen**                    |                 **Login Screen**                 |                 **Register Screen**                 |
-| :-----------------------------------------------------: | :----------------------------------------------: | :-------------------------------------------------: |
-| <img src="assets/images/splashscreen.jpeg" width="220"> | <img src="assets/images/login.jpeg" width="220"> | <img src="assets/images/register.jpeg" width="220"> |
+|                       Splash Screen                        |                    Login Screen                     |                    Register Screen                     |
+| :--------------------------------------------------------: | :-------------------------------------------------: | :----------------------------------------------------: |
+| <img src="./assets/images/splashscreen.jpeg" width="220"/> | <img src="./assets/images/login.jpeg" width="220"/> | <img src="./assets/images/register.jpeg" width="220"/> |
 
-|                 **Home Screen**                 |                    **Categories**                     |                    **Product Details**                    |
-| :---------------------------------------------: | :---------------------------------------------------: | :-------------------------------------------------------: |
-| <img src="assets/images/home.jpeg" width="220"> | <img src="assets/images/categories.jpeg" width="220"> | <img src="assets/images/productdetails.jpeg" width="220"> |
+|                    Home Screen                     |                        Categories                        |                       Product Details                        |
+| :------------------------------------------------: | :------------------------------------------------------: | :----------------------------------------------------------: |
+| <img src="./assets/images/home.jpeg" width="220"/> | <img src="./assets/images/categories.jpeg" width="220"/> | <img src="./assets/images/productdetails.jpeg" width="220"/> |
 
-|                 **Cart Screen**                 |                 **Profile Screen**                 |                   **Add to Cart**                    |
-| :---------------------------------------------: | :------------------------------------------------: | :--------------------------------------------------: |
-| <img src="assets/images/cart.jpeg" width="220"> | <img src="assets/images/profile.jpeg" width="220"> | <img src="assets/images/addtocart.jpeg" width="220"> |
+|                    Cart Screen                     |                    Profile Screen                     |                       Add to Cart                       |
+| :------------------------------------------------: | :---------------------------------------------------: | :-----------------------------------------------------: |
+| <img src="./assets/images/cart.jpeg" width="220"/> | <img src="./assets/images/profile.jpeg" width="220"/> | <img src="./assets/images/addtocart.jpeg" width="220"/> |
 
-|                **Update Profile**                 |                    **Logout**                     |
-| :-----------------------------------------------: | :-----------------------------------------------: |
-| <img src="assets/images/update.jpeg" width="220"> | <img src="assets/images/logout.jpeg" width="220"> |
+|                    Update Profile                    |                        Logout                        |
+| :--------------------------------------------------: | :--------------------------------------------------: |
+| <img src="./assets/images/update.jpeg" width="220"/> | <img src="./assets/images/logout.jpeg" width="220"/> |
 
 </div>
 ## 🤝 Contributing
